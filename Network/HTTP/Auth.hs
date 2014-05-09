@@ -132,9 +132,6 @@ md5 = MD5.md5s . MD5.Str
 kd :: String -> String -> String
 kd a b = md5 (a ++ ":" ++ b)
 
-
-
-
 -- | @headerToChallenge base www_auth@ tries to convert the @WWW-Authenticate@ header 
 -- @www_auth@  into a 'Challenge' value.
 headerToChallenge :: URI -> Header -> Maybe Challenge
@@ -190,6 +187,10 @@ headerToChallenge baseURI (Header _ str) =
                }
 
         annotateURIs :: [Maybe URI] -> [URI]
+#include <ghcplatform.h>
+#ifdef HaLVM_TARGET_OS
+#define MIN_VERSION_network(a,b,c) 1
+#endif
 #if MIN_VERSION_network(2,4,0)
         annotateURIs = map (`relativeTo` baseURI) . catMaybes
 #else

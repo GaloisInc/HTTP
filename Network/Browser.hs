@@ -1053,6 +1053,11 @@ allowRedirect rqState = do
 supportedScheme :: URI -> Bool
 supportedScheme u = uriScheme u == "http:"
 
+#include "ghcplatform.h"
+#ifdef HaLVM_TARGET_OS
+#define MIN_VERSION_network(a,b,c) 1
+#endif
+
 -- | @uriDefaultTo a b@ returns a URI that is consistent with the first
 -- argument URI @a@ when read in the context of the second URI @b@.
 -- If the second argument is not sufficient context for determining
